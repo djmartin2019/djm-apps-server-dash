@@ -1,0 +1,213 @@
+:root {
+    --bg-dark: #020617;
+    --bg-deep: #0b0f1a;
+    --bg-panel: rgba(17, 24, 39, 0.6);
+
+    --neon-blue: #00f0ff;
+    --neon-purple: #a855f7;
+    --neon-blue-soft: #00c8d8;
+
+    --text-primary: #e2f8ff;
+    --text-dim: #7dd3fc;
+
+    --border-glow: rgba(0, 240, 255, 0.4);
+}
+
+/* ---------- Global Reset ---------- */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: "JetBrains Mono", monospace;
+    background:
+        radial-gradient(circle at 50% 0%, #0f172a, #020617 70%);
+    color: var(--text-primary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    overflow-x: hidden;
+}
+
+/* ---------- Animated Background Glow ---------- */
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: -50%;
+    background: radial-gradient(circle at center, #00f0ff33, transparent 60%);
+    animation: drift 25s ease-in-out infinite;
+    pointer-events: none;
+    filter: blur(100px);
+    z-index: 0;
+}
+
+@keyframes drift {
+    0%   { transform: translate(-10%, -10%) scale(1); }
+    50%  { transform: translate(10%, 10%) scale(1.2); }
+    100% { transform: translate(-10%, -10%) scale(1); }
+}
+
+/* ---------- Subtle Grid Overlay ---------- */
+
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(0,240,255,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,240,255,0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ---------- Content Wrapper ---------- */
+
+.container {
+    width: 100%;
+    max-width: 720px;
+    z-index: 1;
+}
+
+/* ---------- Title ---------- */
+
+h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    letter-spacing: 2px;
+    text-align: center;
+    margin-bottom: 40px;
+    color: var(--neon-blue);
+    text-shadow:
+        0 0 5px var(--neon-blue),
+        0 0 20px var(--neon-blue-soft);
+}
+
+/* ---------- Panel ---------- */
+
+.panel {
+    width: 100%;
+    padding: 30px;
+    margin-bottom: 30px;
+
+    background: var(--bg-panel);
+    backdrop-filter: blur(12px);
+
+    border: 1px solid var(--border-glow);
+    border-radius: 16px;
+
+    box-shadow:
+        0 0 20px rgba(0, 240, 255, 0.2),
+        inset 0 0 20px rgba(0, 240, 255, 0.05);
+
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.panel:hover {
+    transform: translateY(-4px);
+    box-shadow:
+        0 0 30px rgba(0, 240, 255, 0.4),
+        inset 0 0 20px rgba(0, 240, 255, 0.1);
+}
+
+/* ---------- Stats ---------- */
+
+.stat-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-dim);
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: var(--neon-blue);
+    text-shadow: 0 0 10px var(--neon-blue-soft);
+}
+
+/* ---------- Buttons ---------- */
+
+button,
+.btn {
+    background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+    border: none;
+    color: black;
+    font-weight: bold;
+    padding: 12px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+button:hover,
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow:
+        0 0 15px var(--neon-blue),
+        0 0 25px var(--neon-purple);
+}
+
+/* ---------- Links ---------- */
+
+a {
+    color: var(--neon-blue);
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+a:hover {
+    text-shadow: 0 0 10px var(--neon-blue);
+}
+
+/* ---------- Footer ---------- */
+
+.footer {
+    margin-top: auto;
+    padding-top: 40px;
+    font-size: 0.75rem;
+    color: #EDF1F7;
+    text-align: center;
+}
+
+/* ---------- Mobile Tweaks ---------- */
+
+@media (max-width: 480px) {
+
+    body {
+        padding: 30px 15px;
+    }
+
+    .panel {
+        padding: 20px;
+    }
+
+    button {
+        width: 100%;
+        margin-top: 10px;
+    }
+}
+
+/* ---------- Dashboard Styling  ----------- */
+.bar {
+    height: 8px;
+    background: rgba(0,255,255,0.1);
+    border-radius: 4px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00f0ff, #00c8d8);
+    box-shadow: 0 0 8px #00f0ff;
+    transition: width 0.5s ease;
+}
+
+.safe   { color: #00f0ff; }
+.danger { color: #ff2e63; text-shadow: 0 0 8px #ff2e63; }
