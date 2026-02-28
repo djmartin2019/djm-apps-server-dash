@@ -1,29 +1,3 @@
-<?php
-$serverTime = date("Y-m-d H:i:s");
-$uptime = shell_exec("uptime -p");
-$load = sys_getloadavg();
-
-$memRaw = shell_exec("free -m");
-$memLines = explode("\n", trim($memRaw));
-$memParts = preg_split('/\s+/', $memLines[1]);
-
-$totalMem = (int)$memParts[1];
-$usedMem  = (int)$memParts[2];
-$freeMem  = (int)$memParts[3];
-
-$memPercent = round(($usedMem / $totalMem) * 100, 1);
-
-$diskRaw = shell_exec("df -h /");
-$diskLines = explode("\n", trim($diskRaw));
-$diskParts = preg_split('/\s+/', $diskLines[1]);
-
-$diskTotal = $diskParts[1];
-$diskUsed  = $diskParts[2];
-$diskFree  = $diskParts[3];
-$diskPercent = str_replace('%', '', $diskParts[4]);
-
-?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,25 +10,18 @@ $diskPercent = str_replace('%', '', $diskParts[4]);
     <h1>DJM Apps Server</h1>
     <div class="panel">
         <div class="stat-label">CPU Load (1 / 5 / 15 min)</div>
-        <div class="stat-value">
-            <?php echo round($load[0],2) . " / " . round($load[1],2) . " / " . round($load[2],2); ?> 
-        </div>
+        <div class="stat-value" id="cpu"></div>
 
         <div class="stat-label">Memory Usage</div>
-        <div class="stat-value">
-            <?php echo "$usedMem MB / $totalMem MB ($memPercent%)"; ?>
-        </div>
+        <div class="stat-value" id="memory"></div>
         <div class="bar">
-            <div class="bar-fill" style="width: <?php echo $memPercent; ?>%"></div>
+            <div class="bar-fill" id="memory-bar"></div>
         </div>
         
-
         <div class="stat-label">Disk Usage</div>
-        <div class="stat-value">
-            <?php echo "$diskUsed / $diskTotal ($diskPercent%)"; ?>
-        </div>
+        <div class="stat-value" id="disk"></div>
         <div class="bar">
-            <div class="bar-fill" style="width: <?php echo $diskPercent; ?>%"></div>
+            <div class="bar-fill" id="disk-bar"></div>
         </div>
     </div>
 
@@ -62,5 +29,34 @@ $diskPercent = str_replace('%', '', $diskParts[4]);
         Experimental Infrastructure Lab • LAMP Stack
     </div>
 </div>
+<script>
+async function fetchStats() {
+    try {
+        const response = await fetch('/stats.php');
+        const data = await response.json();
+
+        //CPU
+        document.getElementById('cpu').innerText =
+            `${data.cpu.one} / ${data.cpu.five} / ${data.cpu.fifteen}`;
+
+        // Memory
+        document.getElementById('memory').innerText = 
+            `${data.memory.used} MB / ${data.memory.total} MB (${data.memory.percent}%)`;
+
+        // Disk
+        document.getElementById('disk').innerText = 
+            `${data.disk.used} / ${data.disk.total} (${data.disk.percent}%)`;
+        document.getElementById('disk-bar').style.width = 
+            `${data.disk.percent}%`;
+
+    } catch (error) {
+        console.error("Failed to fetch status: ", error);
+    }
+}
+
+fetchStats();
+
+setInterval(fetchStats, 5000);
+</script>
 </body>
 </html>
