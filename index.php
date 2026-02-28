@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DJM Apps Server Dashboard</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/styles.css?v=<?= time(); ?>">
 </head>
 <body>
 <?php
@@ -93,7 +93,6 @@ $projects = [];
                     <?php else: ?>
                         <article class="card project-card placeholder-card">
                             <h3>Projects Coming Soon</h3>
-                            <p>Your deployed projects list will appear here.</p>
                             <span class="btn-link disabled" aria-disabled="true">No Projects Yet</span>
                         </article>
                     <?php endif; ?>
