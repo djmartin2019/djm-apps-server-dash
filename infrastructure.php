@@ -3,13 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DJM Apps Server Dashboard</title>
+    <title>Infrastructure | DJM Apps Server Dashboard</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<?php
-$projects = [];
-?>
 <div class="app-shell">
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-brand">
@@ -17,10 +14,10 @@ $projects = [];
             <span class="brand-title">DJM Apps</span>
         </div>
         <nav class="sidebar-nav" aria-label="Primary navigation">
-            <a href="/index.php" class="nav-item active" aria-current="page">Dashboard</a>
+            <a href="/index.php" class="nav-item">Dashboard</a>
             <a href="/projects.php" class="nav-item">Projects</a>
             <a href="/deployments.php" class="nav-item">Deployments</a>
-            <a href="/infrastructure.php" class="nav-item">Infrastructure</a>
+            <a href="/infrastructure.php" class="nav-item active" aria-current="page">Infrastructure</a>
         </nav>
     </aside>
 
@@ -41,7 +38,7 @@ $projects = [];
                         <span></span>
                     </span>
                 </button>
-                <h1 class="page-title">Server Dashboard</h1>
+                <h1 class="page-title">Infrastructure</h1>
             </div>
             <div class="topbar-right">
                 <div class="server-status">
@@ -53,50 +50,42 @@ $projects = [];
         </header>
 
         <main class="main-content">
-            <section class="stats-grid" aria-label="Server health">
-                <article class="card stat-card">
-                    <p class="stat-label">CPU Load (1 / 5 / 15 min)</p>
-                    <p class="stat-value" id="cpu">-- / -- / --</p>
-                </article>
-
-                <article class="card stat-card">
-                    <p class="stat-label">Memory Usage</p>
-                    <p class="stat-value" id="memory">-- MB / -- MB (--%)</p>
-                    <div class="bar" aria-label="Memory usage progress">
-                        <div class="bar-fill" id="memory-bar"></div>
-                    </div>
-                </article>
-
-                <article class="card stat-card">
-                    <p class="stat-label">Disk Usage</p>
-                    <p class="stat-value" id="disk">-- / -- (--%)</p>
-                    <div class="bar" aria-label="Disk usage progress">
-                        <div class="bar-fill" id="disk-bar"></div>
-                    </div>
-                </article>
-            </section>
-
-            <section class="projects-section" aria-label="Deployed projects">
+            <section class="projects-section" aria-label="Infrastructure coming soon">
                 <div class="section-header">
-                    <h2>Deployed Projects</h2>
+                    <h2>Infrastructure Tech Stack</h2>
                 </div>
-                <div class="projects-grid">
-                    <?php if (!empty($projects)): ?>
-                        <?php foreach ($projects as $project): ?>
-                            <article class="card project-card">
-                                <h3><?= htmlspecialchars($project['name']) ?></h3>
-                                <p><?= htmlspecialchars($project['description']) ?></p>
-                                <p class="project-tech"><?= htmlspecialchars($project['stack']) ?></p>
-                                <a class="btn-link" href="<?= htmlspecialchars($project['url']) ?>" target="_blank" rel="noopener noreferrer">Open Project</a>
-                            </article>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <article class="card project-card placeholder-card">
-                            <h3>Projects Coming Soon</h3>
-                            <p>Your deployed projects list will appear here.</p>
-                            <span class="btn-link disabled" aria-disabled="true">No Projects Yet</span>
-                        </article>
-                    <?php endif; ?>
+                <div class="tech-stack-grid">
+                    <article class="card tech-card">
+                        <div class="tech-logo">
+                            <img class="tech-logo-image" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" alt="PHP logo" loading="lazy" decoding="async">
+                        </div>
+                        <h3>PHP</h3>
+                        <p>PHP powers my backend and API endpoints with lightweight, server-side rendering.</p>
+                    </article>
+
+                    <article class="card tech-card">
+                        <div class="tech-logo">
+                            <img class="tech-logo-image" src="https://cdn.simpleicons.org/ubuntu/E95420" alt="Ubuntu logo" loading="lazy" decoding="async">
+                        </div>
+                        <h3>Ubuntu</h3>
+                        <p>Ubuntu runs my VPS host environment with stable Linux tooling for app and service operations.</p>
+                    </article>
+
+                    <article class="card tech-card">
+                        <div class="tech-logo">
+                            <img class="tech-logo-image" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apache/apache-original.svg" alt="Apache logo" loading="lazy" decoding="async">
+                        </div>
+                        <h3>Apache</h3>
+                        <p>Apache handles my HTTP requests, virtual hosts, and reverse proxy behavior for deployed apps.</p>
+                    </article>
+
+                    <article class="card tech-card">
+                        <div class="tech-logo">
+                            <img class="tech-logo-image" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" alt="PostgreSQL logo" loading="lazy" decoding="async">
+                        </div>
+                        <h3>PostgreSQL</h3>
+                        <p>PostgreSQL provides my relational data storage for projects, deployment records, and infrastructure metadata.</p>
+                    </article>
                 </div>
             </section>
         </main>
@@ -160,31 +149,8 @@ async function fetchStats() {
         if (!response.ok) {
             throw new Error(`Unexpected status: ${response.status}`);
         }
+
         const data = await response.json();
-
-        const cpuEl = document.getElementById('cpu');
-        const memoryEl = document.getElementById('memory');
-        const memoryBarEl = document.getElementById('memory-bar');
-        const diskEl = document.getElementById('disk');
-        const diskBarEl = document.getElementById('disk-bar');
-        if (cpuEl) {
-            cpuEl.innerText = `${data.cpu.one} / ${data.cpu.five} / ${data.cpu.fifteen}`;
-        }
-
-        if (memoryEl) {
-            memoryEl.innerText = `${data.memory.used} MB / ${data.memory.total} MB (${data.memory.percent}%)`;
-        }
-        if (memoryBarEl) {
-            memoryBarEl.style.width = `${data.memory.percent}%`;
-        }
-
-        if (diskEl) {
-            diskEl.innerText = `${data.disk.used} / ${data.disk.total} (${data.disk.percent}%)`;
-        }
-        if (diskBarEl) {
-            diskBarEl.style.width = `${data.disk.percent}%`;
-        }
-
         renderServerTime(data.time);
 
         updateStatusIndicator(true);
