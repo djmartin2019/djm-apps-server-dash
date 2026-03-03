@@ -1,10 +1,18 @@
+<?php
+require_once __DIR__ . '/includes/seo.php';
+
+$seo = [
+    'title' => 'Infrastructure | DJM Apps Laboratory',
+    'description' => 'Infrastructure area of DJM Apps Laboratory showing stack technologies, host tooling, and platform components.',
+    'canonical' => 'https://djm-apps.com/infrastructure.php',
+    'path' => '/infrastructure.php',
+];
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infrastructure | DJM Apps Server Dashboard</title>
-    <link rel="stylesheet" href="styles.css">
+<?= render_seo_tags($seo); ?>
+    <link rel="stylesheet" href="/styles.css?v=<?= filemtime(__DIR__ . '/styles.css'); ?>">
 </head>
 <body>
 <div class="app-shell">
@@ -69,6 +77,14 @@
                         </div>
                         <h3>Ubuntu</h3>
                         <p>Ubuntu runs my VPS host environment with stable Linux tooling for app and service operations.</p>
+                    </article>
+
+                    <article class="card tech-card">
+                        <div class="tech-logo">
+                            <img class="tech-logo-image" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" alt="Docker logo" loading="lazy" decoding="async">
+                        </div>
+                        <h3>Docker</h3>
+                        <p>Docker hosts each app in its own isolated container, making deployments consistent across my VPS environments.</p>
                     </article>
 
                     <article class="card tech-card">

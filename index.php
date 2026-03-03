@@ -1,15 +1,22 @@
+<?php
+require_once __DIR__ . '/includes/seo.php';
+require_once __DIR__ . '/includes/projects.php';
+
+$seo = [
+    'title' => 'DJM Apps Laboratory | Server Dashboard',
+    'description' => 'Entry dashboard for DJM Apps Laboratory with live server health, deployed projects, and infrastructure visibility.',
+    'canonical' => 'https://djm-apps.com/',
+    'path' => '/',
+];
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DJM Apps Server Dashboard</title>
-    <link rel="stylesheet" href="/styles.css?v=<?= time(); ?>">
+<?= render_seo_tags($seo); ?>
+    <link rel="stylesheet" href="/styles.css?v=<?= filemtime(__DIR__ . '/styles.css'); ?>">
 </head>
 <body>
-<?php
-$projects = [];
-?>
+<?php $projects = get_deployed_projects(); ?>
 <div class="app-shell">
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-brand">
@@ -83,12 +90,20 @@ $projects = [];
                 <div class="projects-grid">
                     <?php if (!empty($projects)): ?>
                         <?php foreach ($projects as $project): ?>
-                            <article class="card project-card">
-                                <h3><?= htmlspecialchars($project['name']) ?></h3>
-                                <p><?= htmlspecialchars($project['description']) ?></p>
-                                <p class="project-tech"><?= htmlspecialchars($project['stack']) ?></p>
-                                <a class="btn-link" href="<?= htmlspecialchars($project['url']) ?>" target="_blank" rel="noopener noreferrer">Open Project</a>
-                            </article>
+                            <a class="project-card-link" href="<?= htmlspecialchars($project['url']) ?>" target="_blank" rel="noopener noreferrer">
+                                <article class="card project-card">
+                                    <img
+                                        class="project-image"
+                                        src="<?= htmlspecialchars($project['image']) ?>"
+                                        alt="<?= htmlspecialchars($project['name']) ?> preview image"
+                                        loading="lazy"
+                                        decoding="async"
+                                        onerror="this.onerror=null;this.src='/assets/djm-apps.png';"
+                                    >
+                                    <h3><?= htmlspecialchars($project['name']) ?></h3>
+                                    <p><?= htmlspecialchars($project['description']) ?></p>
+                                </article>
+                            </a>
                         <?php endforeach; ?>
                     <?php else: ?>
                         <article class="card project-card placeholder-card">

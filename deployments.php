@@ -1,10 +1,18 @@
+<?php
+require_once __DIR__ . '/includes/seo.php';
+
+$seo = [
+    'title' => 'Deployments | DJM Apps Laboratory',
+    'description' => 'Deployments area of DJM Apps Laboratory for release history, deployment status, and rollback planning.',
+    'canonical' => 'https://djm-apps.com/deployments.php',
+    'path' => '/deployments.php',
+];
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deployments | DJM Apps Server Dashboard</title>
-    <link rel="stylesheet" href="styles.css">
+<?= render_seo_tags($seo); ?>
+    <link rel="stylesheet" href="/styles.css?v=<?= filemtime(__DIR__ . '/styles.css'); ?>">
 </head>
 <body>
 <div class="app-shell">
