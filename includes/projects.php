@@ -112,6 +112,11 @@ if (!function_exists('get_deployed_projects')) {
                 'description' => 'Choose between two Pokemon, cast your vote, and help shape live rankings using PokeAPI data.',
                 'url' => 'https://pokevote.djm-apps.com',
             ],
+            [
+                'name' => 'Davey Maps',
+                'description' => 'Explore maps and locations with Davey Maps.',
+                'url' => 'https://davey-maps.djm-apps.com',
+            ],
         ];
 
         foreach ($projects as &$project) {

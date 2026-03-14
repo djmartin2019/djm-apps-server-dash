@@ -58,49 +58,94 @@ $seo = [
         </header>
 
         <main class="main-content">
-            <section class="projects-section" aria-label="Infrastructure coming soon">
+            <section class="projects-section" aria-label="Infrastructure tech stack">
                 <div class="section-header">
-                    <h2>Infrastructure Tech Stack</h2>
+                    <div class="tech-filter" role="group" aria-label="Filter by project">
+                        <button type="button" class="tech-filter-btn active" data-filter="all" aria-pressed="true">All</button>
+                        <button type="button" class="tech-filter-btn" data-filter="dashboard" aria-pressed="false">Dashboard</button>
+                        <button type="button" class="tech-filter-btn" data-filter="pokevote" aria-pressed="false">PokeVote</button>
+                        <button type="button" class="tech-filter-btn" data-filter="davey-maps" aria-pressed="false">Davey Maps</button>
+                        <button type="button" class="tech-filter-btn" data-filter="djm-apps-server" aria-pressed="false">DJM Apps server</button>
+                    </div>
                 </div>
                 <div class="tech-stack-grid">
-                    <article class="card tech-card">
+                    <article class="card tech-card" data-projects="dashboard pokevote">
                         <div class="tech-logo">
                             <img class="tech-logo-image" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" alt="PHP logo" loading="lazy" decoding="async">
                         </div>
                         <h3>PHP</h3>
+                        <div class="tech-capsules" aria-label="Used by">
+                            <span class="tech-capsule">Dashboard</span>
+                            <span class="tech-capsule">PokeVote</span>
+                        </div>
                         <p>PHP powers my backend and API endpoints with lightweight, server-side rendering.</p>
                     </article>
 
-                    <article class="card tech-card">
+                    <article class="card tech-card" data-projects="djm-apps-server">
                         <div class="tech-logo">
                             <img class="tech-logo-image" src="https://cdn.simpleicons.org/ubuntu/E95420" alt="Ubuntu logo" loading="lazy" decoding="async">
                         </div>
                         <h3>Ubuntu</h3>
+                        <div class="tech-capsules" aria-label="Used by">
+                            <span class="tech-capsule">DJM Apps server</span>
+                        </div>
                         <p>Ubuntu runs my VPS host environment with stable Linux tooling for app and service operations.</p>
                     </article>
 
-                    <article class="card tech-card">
+                    <article class="card tech-card" data-projects="pokevote davey-maps">
                         <div class="tech-logo">
                             <img class="tech-logo-image" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" alt="Docker logo" loading="lazy" decoding="async">
                         </div>
                         <h3>Docker</h3>
+                        <div class="tech-capsules" aria-label="Used by">
+                            <span class="tech-capsule">PokeVote</span>
+                            <span class="tech-capsule">Davey Maps</span>
+                        </div>
                         <p>Docker hosts each app in its own isolated container, making deployments consistent across my VPS environments.</p>
                     </article>
 
-                    <article class="card tech-card">
+                    <article class="card tech-card" data-projects="djm-apps-server">
                         <div class="tech-logo">
                             <img class="tech-logo-image" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apache/apache-original.svg" alt="Apache logo" loading="lazy" decoding="async">
                         </div>
                         <h3>Apache</h3>
+                        <div class="tech-capsules" aria-label="Used by">
+                            <span class="tech-capsule">DJM Apps server</span>
+                        </div>
                         <p>Apache handles my HTTP requests, virtual hosts, and reverse proxy behavior for deployed apps.</p>
                     </article>
 
-                    <article class="card tech-card">
+                    <article class="card tech-card" data-projects="pokevote">
                         <div class="tech-logo">
                             <img class="tech-logo-image" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" alt="PostgreSQL logo" loading="lazy" decoding="async">
                         </div>
                         <h3>PostgreSQL</h3>
+                        <div class="tech-capsules" aria-label="Used by">
+                            <span class="tech-capsule">PokeVote</span>
+                        </div>
                         <p>PostgreSQL provides my relational data storage for projects, deployment records, and infrastructure metadata.</p>
+                    </article>
+
+                    <article class="card tech-card" data-projects="davey-maps">
+                        <div class="tech-logo">
+                            <img class="tech-logo-image" src="https://cdn.simpleicons.org/threedotjs/ffffff" alt="Three.js logo" loading="lazy" decoding="async">
+                        </div>
+                        <h3>Three.js</h3>
+                        <div class="tech-capsules" aria-label="Used by">
+                            <span class="tech-capsule">Davey Maps</span>
+                        </div>
+                        <p>Three.js drives in-browser 3D rendering for Davey Maps — procedural terrain, materials, and real-time visualisation.</p>
+                    </article>
+
+                    <article class="card tech-card" data-projects="davey-maps">
+                        <div class="tech-logo">
+                            <img class="tech-logo-image" src="https://cdn.simpleicons.org/rust/ffffff" alt="Rust logo" loading="lazy" decoding="async">
+                        </div>
+                        <h3>Rust</h3>
+                        <div class="tech-capsules" aria-label="Used by">
+                            <span class="tech-capsule">Davey Maps</span>
+                        </div>
+                        <p>Rust backs Davey Maps’ terrain generation: Perlin noise, heightmaps, and HTTP APIs for the frontend.</p>
                     </article>
                 </div>
             </section>
@@ -186,6 +231,34 @@ window.addEventListener('resize', () => {
 
 fetchStats();
 setInterval(fetchStats, 5000);
+
+(function () {
+    const filterBtns = document.querySelectorAll('.tech-filter-btn');
+    const techCards = document.querySelectorAll('.tech-card[data-projects]');
+
+    function setActiveFilter(btn) {
+        filterBtns.forEach((b) => {
+            b.classList.toggle('active', b === btn);
+            b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+        });
+    }
+
+    function filterByProject(projectSlug) {
+        techCards.forEach((card) => {
+            const projects = (card.getAttribute('data-projects') || '').split(/\s+/).filter(Boolean);
+            const show = projectSlug === 'all' || projects.includes(projectSlug);
+            card.classList.toggle('filtered-out', !show);
+        });
+    }
+
+    filterBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+            const slug = btn.getAttribute('data-filter');
+            setActiveFilter(btn);
+            filterByProject(slug);
+        });
+    });
+})();
 </script>
 </body>
 </html>

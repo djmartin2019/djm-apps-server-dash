@@ -301,12 +301,47 @@ a {
 }
 
 .section-header {
-    margin-bottom: 12px;
+    margin-bottom: 16px;
 }
 
 .section-header h2 {
     font-size: 1rem;
     color: var(--text-bright);
+    margin-bottom: 12px;
+}
+
+.tech-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tech-filter-btn {
+    padding: 0.35em 0.85em;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    background: rgba(0, 240, 255, 0.06);
+    border: 1px solid rgba(0, 240, 255, 0.18);
+    border-radius: 999px;
+    cursor: pointer;
+    transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+
+.tech-filter-btn:hover {
+    color: var(--text-bright);
+    background: rgba(0, 240, 255, 0.1);
+    border-color: rgba(0, 240, 255, 0.28);
+}
+
+.tech-filter-btn.active {
+    color: var(--text-bright);
+    background: rgba(0, 240, 255, 0.14);
+    border-color: rgba(0, 240, 255, 0.35);
+}
+
+.tech-card.filtered-out {
+    display: none;
 }
 
 .projects-grid {
@@ -332,6 +367,24 @@ a {
 .tech-card h3 {
     color: var(--text-bright);
     font-size: 1rem;
+}
+
+.tech-capsules {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 6px;
+}
+
+.tech-capsule {
+    display: inline-block;
+    padding: 0.2em 0.6em;
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    background: rgba(0, 240, 255, 0.06);
+    border: 1px solid rgba(0, 240, 255, 0.18);
+    border-radius: 999px;
 }
 
 .tech-card p {
@@ -362,6 +415,44 @@ a {
     height: 46px;
     object-fit: contain;
     display: block;
+}
+
+.infrastructure-detail-card {
+    padding: 24px;
+    max-width: 56rem;
+}
+
+.infrastructure-detail-card .lead {
+    color: var(--text-bright);
+    font-size: 1.05rem;
+    line-height: 1.5;
+    margin-bottom: 1em;
+}
+
+.infrastructure-detail-card h3 {
+    color: var(--text-bright);
+    font-size: 1rem;
+    margin: 1.25em 0 0.5em;
+}
+
+.infrastructure-detail-card ul {
+    margin: 0;
+    padding-left: 1.25rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+}
+
+.infrastructure-detail-card li {
+    margin-bottom: 0.5em;
+}
+
+.infrastructure-detail-card code {
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 0.88em;
+    padding: 0.15em 0.35em;
+    border-radius: 4px;
+    background: rgba(0, 240, 255, 0.08);
+    border: 1px solid rgba(0, 240, 255, 0.2);
 }
 
 .project-card {
