@@ -117,6 +117,16 @@ if (!function_exists('get_deployed_projects')) {
                 'description' => 'Explore maps and locations with Davey Maps.',
                 'url' => 'https://davey-maps.djm-apps.com',
             ],
+            [
+                'name' => 'Sentinel — Observability Platform',
+                'description' => 'Distributed observability for uptime, API health, VPS metrics, and incident tracking across self-hosted infrastructure.',
+                'url' => 'https://sentinel.djm-apps.com',
+            ],
+            [
+                'name' => 'GH Resolver — HTTP Edge Cache Lab',
+                'description' => 'A small HTTP caching edge in front of a GitHub API origin, with a React UI to look up public profiles and experiment with cache hits, TTL, and stale-while-refresh.',
+                'url' => 'https://githublookup.djm-apps.com',
+            ],
         ];
 
         foreach ($projects as &$project) {
